@@ -1,0 +1,57 @@
+{
+	"info": {
+		"_postman_id": "fd973c78-90e9-4ce4-b107-b9a98e331bdd",
+		"name": "SMS Subscription",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26258025",
+		"_collection_link": "https://interstellar-spaceship-146818.postman.co/workspace/Team-Workspace~f75e08f6-aa22-4e61-8e9d-2fcbae450972/collection/26258025-fd973c78-90e9-4ce4-b107-b9a98e331bdd?action=share&creator=26258025&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "http://localhost:9000/acct/v2/events",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFkbWluQG1vdWNoYWsuY29tIiwibmFtZSI6Ik1vdWNoYWsgYWRtaW4iLCJwaG9uZSI6IjAxNzI4OTM4MDkzODUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDUtMjMtMTEtMDItNTMiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA1LTIzIDExOjAwOjQ2LjI0MTI5NSswMDowMCIsImF1dGhvcml6ZWRfdmlld3MiOlsiQURNSU5fVklFVyIsIlNUVURFTlRfVklFVyIsIlRFQUNIRVJfVklFVyJdLCJ1c2VyX2lkIjoiMTg2MzZjMzctYWJhZi00N2JiLTk1ZTYtMDUwYzlhOWEwMDIyIiwicHJvdmlkZXIiOiJwYXNzd29yZCIsImFjY2VzcyI6eyJEMjg1RTM1OCI6WyJvd25lciIsImFkbWluIl19LCJvcmdhbml6YXRpb25zIjpbeyJwYXJ0bmVyX25hbWUiOiJNb3VjaGFrIGFkbWluIiwicGFydG5lcl9jb2RlIjoiRDI4NUUzNTgifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiRDI4NUUzNTgiLCJjdXJyZW5jeSI6ImJkdCIsImV4cGlyZV90aW1lIjoiMjAyMy0wNS0yNC0xMS0wNi0yNiJ9.F9BeWKLJla4tyItdrS4bBnJiLoAFID0nrGQqmE9jxUc"
+					},
+					{
+						"key": "channel-name",
+						"value": "admin_confirm_sms_subscription"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "origin",
+						"value": "http://localhost:9000"
+					},
+					{
+						"key": "request-id",
+						"value": "ad-conf-001"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"dff65f6b-636a-4a46-b4c3-6c69210bbed3\",\r\n    \"transaction_id\": \"aa768b3e-4be4-43d6-8222-8039d27be599\",\r\n    \"transaction_time\": \"1684828614.883546\",\r\n    \"num_of_sms\": \"120\",\r\n    \"auth_admin\": \"mb!@#$ASDQWE112232\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9000/acct/v2/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"acct",
+						"v2",
+						"events"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

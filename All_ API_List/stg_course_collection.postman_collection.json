@@ -1,0 +1,1124 @@
+{
+	"info": {
+		"_postman_id": "4bf9e69f-bcb2-4388-9061-40c14a7f8df6",
+		"name": "stg_course_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26258025",
+		"_collection_link": "https://interstellar-spaceship-146818.postman.co/workspace/Team-Workspace~f75e08f6-aa22-4e61-8e9d-2fcbae450972/collection/26258025-4bf9e69f-bcb2-4388-9061-40c14a7f8df6?action=share&creator=26258025&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "stg_login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//setToken\r",
+							"var log_in = pm.response.json();\r",
+							"pm.environment.set('course_token', log_in.content.token);\r",
+							"\r",
+							"//x.content.user_id\r",
+							"var teacher_userId = pm.response.json();\r",
+							"pm.environment.set('user_id', teacher_userId.content.user_id);\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							" /*postman.setNextRequest(\"create_course\");\r",
+							" \r",
+							"//x.content.user_id\r",
+							"/*var announcer_id= pm.response.json();\r",
+							"pm.environment.set('announcer_id_set', announcer_id.content.user_id); */ \r",
+							"\r",
+							"//partner_code-set\r",
+							"var user_last_partner_Code_Id = pm.response.json();\r",
+							"pm.environment.set('last_partnerCode',user_last_partner_Code_Id.content.last_partner_code);\r",
+							"\r",
+							"//writing_testCase\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"//NextRequestCall\r",
+							" //postman.setNextRequest(\"create_course\");\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{course_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Request-Id",
+						"value": "signin-687324223342"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{course_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"21may2023@gmail.com\",\r\n    \"password\": \"21may2023\",\r\n    \"type\": \"basic\",\r\n    \"provider\":  \"password\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/acct/v2/sessions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"acct",
+						"v2",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stg_create_course",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//course_type\r",
+							"coursetype = [\"Public\",\"Private\" ];\r",
+							"var ran_coursetype = Math.floor(Math.random()*coursetype.length);\r",
+							"var mycourse_type = coursetype[ran_coursetype];\r",
+							"pm.variables.set(\"random_coursetype\", mycourse_type);\r",
+							"console.log(mycourse_type);\r",
+							"\r",
+							"\r",
+							"//coursename \r",
+							" course_name=[\"SSC-2023\",\"HSC-2023\",\"University Admission-2023\",\"Job Preparation-2023\", \"Career-2023\",  \"Skills-2023\", \"Corporate Skills-2023\",\"Freelancing Skills-2023\", \"Art Skills-2023\", \"O Level-2023\", \"A Level-2023\",\"Others\"]\r",
+							"\r",
+							"    var ran_course_name= Math.floor(Math.random() * course_name.length);\r",
+							"    var mycourse_name = course_name[ran_course_name];\r",
+							"    pm.variables.set(\"random_course_name\", mycourse_name); \r",
+							"    console.log(mycourse_name)\r",
+							"\r",
+							"\r",
+							"//course_key \r",
+							"//Needs to be more than 5 chars.\r",
+							"var course_key_item = [\"CSE001\",\"CSE002\",\"CSE003\",\"CSE004\",\"CSE005\", \"CSE006\",\"CSE007\"];\r",
+							"function getRandomInt(min, max) { \r",
+							"min = Math.ceil(min); \r",
+							"max = Math.floor(max); \r",
+							"return Math.floor(Math.random() * (max - min)) + min; \r",
+							"\r",
+							"} \r",
+							"console.log(course_key_item)\r",
+							"pm.variables.set(\"course_key\", course_key_item[getRandomInt(0,7)]);\r",
+							"\r",
+							"\r",
+							"\r",
+							"//Course about &Outline\r",
+							"var dummyText=pm.variables.replaceIn('{{$randomLoremParagraph}}');\r",
+							"pm.variables.set(\"text\", dummyText); \r",
+							"\r",
+							"  \r",
+							"  \r",
+							"  \r",
+							"  //categories\r",
+							"     categories=[\"SSC\",\"HSC\",\"University Admission\",\"Job Preparation\", \"Career\",  \"Skills\", \"Corporate Skills\",\"Freelancing Skills\", \"Art Skills\", \"O Level\", \"A Level\",\"Others\"]\r",
+							"\r",
+							"\r",
+							"    var rand_categories = Math.floor(Math.random() * categories.length);\r",
+							"    var mycategories = categories[rand_categories];\r",
+							"    console.log(mycategories)\r",
+							"    pm.environment.set(\"random_categories\",mycategories);\r",
+							"\r",
+							"//subcategories \r",
+							"subcategories =[\"Bangla\",\"English\",\"Mathematics\",\"Religion\",\"ICT\",\"Physics\",\"Chemistry\",\"Biology\",\"Higher Math\",\"Accounting\"];\r",
+							"//pm.variables.set(\"subCategories\", subcategories[_.random(subcategories.length)]);\r",
+							"\r",
+							"var rand_subcategories = Math.floor(Math.random() * subcategories.length);\r",
+							"var categories1 = subcategories[rand_subcategories];\r",
+							"console.log(categories1);\r",
+							"pm.environment.set(\"random_subcategories\",categories1);\r",
+							"  \r",
+							" //Studentstakequiz\r",
+							"var studentstakequiz = [true, false];\r",
+							"pm.variables.set('studentQuiz', studentstakequiz[Math.floor(Math.random()*\r",
+							"studentstakequiz.length)]);\r",
+							"\r",
+							"console.log(studentstakequiz);\r",
+							"\r",
+							"//$randomInt\r",
+							"pm.variables.set('course_material', Math.floor(Math.random() * 10))\r",
+							"  \r",
+							"/*//$randomImageUrl\r",
+							"var image=pm.variables.replaceIn('{{$randomImageUrl}}');\r",
+							"pm.environment.set(\"course_image\", image); \r",
+							"*/ \r",
+							"\r",
+							"\r",
+							"  /*\r",
+							"//randomString\r",
+							"function randomString(minValue, maxValue, dataSet = 'abcdefgh') {\r",
+							"    if (!minValue) {\r",
+							"        minValue = 8;\r",
+							"        maxValue = 8;\r",
+							"    }\r",
+							"    if (!maxValue) {\r",
+							"        maxValue = minValue;\r",
+							"    }\r",
+							"    let length = _.random(minValue, maxValue),\r",
+							"        randomString = \"\";\r",
+							"    for (let i = 0; i < length; i++)\r",
+							"        randomString += dataSet.charAt(Math.floor(Math.random() * dataSet.length));\r",
+							"    return randomString;\r",
+							"}\r",
+							"pm.variables.set('randomString', randomString()); */\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//x.content.course_id\r",
+							"var set_course_id  = pm.response.json();\r",
+							"pm.environment.set('course_id_set', set_course_id.content.course_id);\r",
+							"\r",
+							"\r",
+							"\r",
+							" //writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							"// postman.setNextRequest(\"get_all_course\");\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{course_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIxbWF5MjAyM0BnbWFpbC5jb20iLCJuYW1lIjoiMjFtYXkyMDIzIiwicGhvbmUiOiIxMjM0NTY3ODkwIiwiZW1haWxfdmVyaWZpZWQiOjAsInBob25lX3ZlcmlmaWVkIjowLCJsYXN0X2xvZ2luX3RpbWUiOiIyMDIzLTA1LTIzLTEwLTQ5LTQ2IiwibGFuZ19wcmVmZXJlbmNlIjoiQk4iLCJwYXNzd29yZF91cGRhdGVkX2F0IjoiMjAyMy0wNS0yMSAwNjo0NzoxMC42NjQ1NjUrMDA6MDAiLCJhdXRob3JpemVkX3ZpZXdzIjpbIlNUVURFTlRfVklFVyIsIlRFQUNIRVJfVklFVyJdLCJ1c2VyX2lkIjoiZGExMWI3MWQtZDJiOS00MzM1LTkxYzEtNzY0MmQ2ZTlkMzdmIiwicHJvdmlkZXIiOiJwYXNzd29yZCIsImFjY2VzcyI6eyIzNTMzQzAzOCI6WyJvd25lciJdfSwib3JnYW5pemF0aW9ucyI6W3sicGFydG5lcl9uYW1lIjoiMjFtYXkyMDIzICIsInBhcnRuZXJfY29kZSI6IjM1MzNDMDM4In1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjM1MzNDMDM4IiwiY3VycmVuY3kiOiJiZHQiLCJleHBpcmVfdGltZSI6IjIwMjMtMDUtMjQtMTAtNTAtNDkifQ.RDl5AqQACCGNBpqLrEV2pyf7f7z4CI5F9YLnWHiKbUw"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_post_courses"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_post_courses-1376584398"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"course_type\":\"{{random_coursetype}}\"\r\n,\"syllabus_topics\":[\"\"],\r\n\"course_materials\":{\"video_lectures\":\"{{course_material}}\",\r\n\"live_classes\":\"{{course_material}}\",\"quizzes\":\"{{course_material}}\",\"lecture_notes\":\"{{course_material}}\",\"projects\":\"{{course_material}}\",\"assignments\":\"{{course_material}}\",\"exams\":\"{{course_material}}\"},\r\n\r\n\"course_title\":\"{{random_course_name}}\",\"course_key\":\"{{course_key}}\",\r\n\"image\":{\"file\":{}},\r\n\"course_description\":\"<p>{{text}}</p>\",\r\n\r\n\"syllabus\":\"<p>{{text}} </p>\",\r\n\r\n\"quiz_enabled\":{{studentQuiz}},\r\n\"category\":\"{{mycategories}}\",\r\n\"subcategories\":[\"{{random_subcategories}}\"],\r\n\r\n\"partner_code\":\"3533C038\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/edu/v2/teachers",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stg_get_all_course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//\r",
+							"var mytestId = postman.getEnvironmentVariable(\"course_id_set\")\r",
+							"tests[\"test case passed.! Has this Course\"]= JSON.stringify(responseBody.has(mytestId));\r",
+							"console.log(mytestId)\r",
+							"\r",
+							"\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							" //postman.setNextRequest(\"edit_course\");\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{course_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIxbWF5MjAyM0BnbWFpbC5jb20iLCJuYW1lIjoiMjFtYXkyMDIzIiwicGhvbmUiOiIxMjM0NTY3ODkwIiwiZW1haWxfdmVyaWZpZWQiOjAsInBob25lX3ZlcmlmaWVkIjowLCJsYXN0X2xvZ2luX3RpbWUiOiIyMDIzLTA1LTIzLTEwLTQ5LTQ2IiwibGFuZ19wcmVmZXJlbmNlIjoiQk4iLCJwYXNzd29yZF91cGRhdGVkX2F0IjoiMjAyMy0wNS0yMSAwNjo0NzoxMC42NjQ1NjUrMDA6MDAiLCJhdXRob3JpemVkX3ZpZXdzIjpbIlNUVURFTlRfVklFVyIsIlRFQUNIRVJfVklFVyJdLCJ1c2VyX2lkIjoiZGExMWI3MWQtZDJiOS00MzM1LTkxYzEtNzY0MmQ2ZTlkMzdmIiwicHJvdmlkZXIiOiJwYXNzd29yZCIsImFjY2VzcyI6eyIzNTMzQzAzOCI6WyJvd25lciJdfSwib3JnYW5pemF0aW9ucyI6W3sicGFydG5lcl9uYW1lIjoiMjFtYXkyMDIzICIsInBhcnRuZXJfY29kZSI6IjM1MzNDMDM4In1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjM1MzNDMDM4IiwiY3VycmVuY3kiOiJiZHQiLCJleHBpcmVfdGltZSI6IjIwMjMtMDUtMjQtMTAtNTAtNDkifQ.RDl5AqQACCGNBpqLrEV2pyf7f7z4CI5F9YLnWHiKbUw"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_get_courses"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_get_courses-3795589830"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partner_code\":\"{{last_partnerCode}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.stg-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"stg-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stg_edit_course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							" //postman.setNextRequest(\"delete_course\");\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{course_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIxbWF5MjAyM0BnbWFpbC5jb20iLCJuYW1lIjoiMjFtYXkyMDIzIiwicGhvbmUiOiIxMjM0NTY3ODkwIiwiZW1haWxfdmVyaWZpZWQiOjAsInBob25lX3ZlcmlmaWVkIjowLCJsYXN0X2xvZ2luX3RpbWUiOiIyMDIzLTA1LTIzLTEwLTQ5LTQ2IiwibGFuZ19wcmVmZXJlbmNlIjoiQk4iLCJwYXNzd29yZF91cGRhdGVkX2F0IjoiMjAyMy0wNS0yMSAwNjo0NzoxMC42NjQ1NjUrMDA6MDAiLCJhdXRob3JpemVkX3ZpZXdzIjpbIlNUVURFTlRfVklFVyIsIlRFQUNIRVJfVklFVyJdLCJ1c2VyX2lkIjoiZGExMWI3MWQtZDJiOS00MzM1LTkxYzEtNzY0MmQ2ZTlkMzdmIiwicHJvdmlkZXIiOiJwYXNzd29yZCIsImFjY2VzcyI6eyIzNTMzQzAzOCI6WyJvd25lciJdfSwib3JnYW5pemF0aW9ucyI6W3sicGFydG5lcl9uYW1lIjoiMjFtYXkyMDIzICIsInBhcnRuZXJfY29kZSI6IjM1MzNDMDM4In1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjM1MzNDMDM4IiwiY3VycmVuY3kiOiJiZHQiLCJleHBpcmVfdGltZSI6IjIwMjMtMDUtMjQtMTAtNTAtNDkifQ.RDl5AqQACCGNBpqLrEV2pyf7f7z4CI5F9YLnWHiKbUw"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_update_courses"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_update_courses-544431118"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partner_code\":\"{{last_partnerCode}}\",\r\n\"course_id\":\"{{course_id_set}}\",\r\n\"course_type\":\"Public\",\"syllabus_topics\":[\"\"],\r\n\"course_materials\":{\"projects\":\"02\",\"assignments\":\"02\",\"exams\":\"02\",\"lecture_notes\":\"02\",\"live_classes\":\"02\",\"video_lectures\":\"02\",\"quizzes\":\"02\"},\r\n\"course_key\":\"shakil\",\"quiz_enabled\":false,\"num_students\":0,\"syllabus\":\"<p>Rem voluptas velit itaque deserunt harum.</p>\",\"num_batches\":0,\"num_project\":0,\"num_assignment\":0,\"subcategories\":[\"Accounting\"],\r\n\"course_title\":\"shakilahmed-2023\",\r\n\"category\":\"{{mycategories}}\",\"num_lecture\":0,\"course_description\":\"<p>Rem voluptas velit itaque deserunt harugg</p>\",\"num_exam\":0,\"enabled\":false,\"owner_id\":\"{{user_id}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.stg-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"stg-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stg_delete_course",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							" //postman.setNextRequest(null);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{course_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+						"key": "Authorization",
+						"value": "{{course_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_delete_courses"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_delete_courses-1751306684"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"course_id\":\"{{course_id_set}}\",\r\n\r\n\"partner_code\":\"{{last_partnerCode}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stg_sing_up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,bn;q=0.7,en;q=0.3"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-accounts.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-accounts.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"password\":\"shakil001\",\r\n\"email\":\"heqohihurado@rungel.net\",\r\n\"name\":\"23may2023\",\r\n\"phone\":\"01799890244\",\r\n\"is_teacher\":0,\r\n\"userType\":\"Student\",\r\n\"type\":\"basic\",\r\n\"provider\":\"password\"}"
+				},
+				"url": {
+					"raw": "https://acct.stg-api.mouchak.com/acct/v2/users",
+					"protocol": "https",
+					"host": [
+						"acct",
+						"stg-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"acct",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://edu.stg-api.mouchak.com/edu/v2/teachers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjE2YXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxNmFwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTAyNDQiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDUtMjQtMDYtMTgtNTIiLCJsYW5nX3ByZWZlcmVuY2UiOiJFTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTE2IDEwOjQ0OjM1LjAwMzg0NSswMDowMCIsImJhbGFuY2UiOiI5OS40IiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciLCJURUFDSEVSX1ZJRVciXSwidXNlcl9pZCI6IjM1MzFhZjMxLTk1N2MtNGFlZS04YzQ1LWRiNWI0OGIzMGVjNyIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiREVGRkNGQjYiOlsib3duZXIiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IjE2YXByaWwyMDIzIiwicGFydG5lcl9jb2RlIjoiREVGRkNGQjYifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiREVGRkNGQjYiLCJleHBpcmVfdGltZSI6IjIwMjMtMDUtMjUtMDYtMjctMDAifQ.-6FRNjOnlNudbAn1H-03eqk_N91Yx0noyW3TDjNQdds"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_post_batches"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_post_batches-1265632857"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"course_id\":\"b20e65b6-6844-4184-8a2f-19d6c61d09f8\",\r\n\"batch_title\":\"New Batches\",\r\n\"summary\":\"Molestias consequuntur nisi non quod.\",\r\n\"description\":\"Molestias consequuntur nisi non quod.Molestias consequuntur nisi non quod.\",\r\n\"teacher_info\":\"16april2023-self#da11b71d-d2b9-4335-91c1-7642d6e9d37f\",\r\n\"batch_type\":\"Online\",\r\n\"price\":\"1\",\"payment_type\":\"One Time\",\r\n\"begin_date\":\"2023-05-24\",\r\n\"end_date\":\"2023-08-31\",\r\n\"partner_code\":\"3533C038\"}"
+				},
+				"url": {
+					"raw": "https://edu.stg-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"stg-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stg_create_batch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var set_batch_id = pm.response.json();\r",
+							"pm.environment.set('batch_id_set', set_batch_id.content.batch_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{course_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjE2YXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxNmFwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTAyNDQiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDUtMjQtMDYtMTgtNTIiLCJsYW5nX3ByZWZlcmVuY2UiOiJFTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTE2IDEwOjQ0OjM1LjAwMzg0NSswMDowMCIsImJhbGFuY2UiOiI5OS40IiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciLCJURUFDSEVSX1ZJRVciXSwidXNlcl9pZCI6IjM1MzFhZjMxLTk1N2MtNGFlZS04YzQ1LWRiNWI0OGIzMGVjNyIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiREVGRkNGQjYiOlsib3duZXIiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IjE2YXByaWwyMDIzIiwicGFydG5lcl9jb2RlIjoiREVGRkNGQjYifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiREVGRkNGQjYiLCJleHBpcmVfdGltZSI6IjIwMjMtMDUtMjUtMDYtMjctMDAifQ.-6FRNjOnlNudbAn1H-03eqk_N91Yx0noyW3TDjNQdds"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_post_batches"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_post_batches-1265632857"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"course_id\":\"{{course_id_set}}\",\r\n\"batch_title\":\"New Batches\",\r\n\"summary\":\"Molestias consequuntur nisi non quod.\",\r\n\"description\":\"Molestias consequuntur nisi non quod.Molestias consequuntur nisi non quod.\",\r\n\"teacher_info\":\"21may2023-self#{{user_id}}\",\r\n\"batch_type\":\"Online\",\r\n\"price\":\"1\",\"payment_type\":\"One Time\",\r\n\"begin_date\":\"2023-05-24\",\r\n\"end_date\":\"2023-08-31\",\r\n\"partner_code\":\"{{last_partnerCode}}\"}"
+				},
+				"url": {
+					"raw": "{{url}}/edu/v2/teachers",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit_batches ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIxbWF5MjAyM0BnbWFpbC5jb20iLCJuYW1lIjoiMjFtYXkyMDIzIiwicGhvbmUiOiIxMjM0NTY3ODkwIiwiZW1haWxfdmVyaWZpZWQiOjAsInBob25lX3ZlcmlmaWVkIjowLCJsYXN0X2xvZ2luX3RpbWUiOiIyMDIzLTA1LTI1LTExLTE3LTQyIiwibGFuZ19wcmVmZXJlbmNlIjoiRU4iLCJwYXNzd29yZF91cGRhdGVkX2F0IjoiMjAyMy0wNS0yMSAwNjo0NzoxMC42NjQ1NjUrMDA6MDAiLCJiYWxhbmNlIjoiMC4wIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciLCJURUFDSEVSX1ZJRVciXSwidXNlcl9pZCI6ImRhMTFiNzFkLWQyYjktNDMzNS05MWMxLTc2NDJkNmU5ZDM3ZiIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiMzUzM0MwMzgiOlsib3duZXIiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IjIxbWF5MjAyMyAiLCJwYXJ0bmVyX2NvZGUiOiIzNTMzQzAzOCJ9XSwibGFzdF9wYXJ0bmVyX2NvZGUiOiIzNTMzQzAzOCIsImV4cGlyZV90aW1lIjoiMjAyMy0wNS0yNi0xMS0xOC0xOCJ9.PMIhOc5ATWtprl8ULMjfZwvZ82DZoGtVPB_EVu7X7Dg"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_edit_batches"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_edit_batches-2319261454"
+					},
+					{
+						"key": "Origin",
+						"value": "https://stg.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://stg.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"course_id\":\"{{course_id_set}}\",\r\n\"batch_id\":\"{{batch_id_set}}\",\r\n\"batch_title\":\"মাই ব্যাচ\",\"summary\":\"Molestias consequuntur nisi non quod.\",\"description\":\"Molestias consequuntur nisi non quod.Molestias consequuntur nisi non quod.\",\r\n\r\n\"teacher_info\":\"21may2023-self#{{user_id}}\",\r\n\"batch_type\":\"Online\",\"price\":1,\"payment_type\":\"One Time\",\"begin_date\":\"2023-05-24\",\"end_date\":\"2023-08-31\",\"partner_code\":\"{{last_partnerCode}}\"}"
+				},
+				"url": {
+					"raw": "{{url}}/edu/v2/teachers",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

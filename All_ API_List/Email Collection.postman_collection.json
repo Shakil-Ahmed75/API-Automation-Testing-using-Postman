@@ -1,0 +1,997 @@
+{
+	"info": {
+		"_postman_id": "08b743b0-9f04-48ac-9824-0713416b74a3",
+		"name": "Email Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26258025",
+		"_collection_link": "https://interstellar-spaceship-146818.postman.co/workspace/My-Workspace~4545c222-419c-4583-8d1a-3926873e0b4e/collection/26258025-08b743b0-9f04-48ac-9824-0713416b74a3?action=share&creator=26258025&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Singup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,bn;q=0.7,en;q=0.3"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-accounts.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-accounts.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"password\":\"16april2023\",\r\n\"email\":\"16april2023@gmail.com\",\r\n\"name\":\"16april2023\",\r\n\"phone\":\"01799890244\",\r\n\"is_teacher\":1,\r\n\"userType\":\"Teacher\",\r\n\"type\":\"basic\",\r\n\"provider\":\"password\"}"
+				},
+				"url": {
+					"raw": "https://acct.qa-api.mouchak.com/acct/v2/users",
+					"protocol": "https",
+					"host": [
+						"acct",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"acct",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//setToken\r",
+							"var log_in = pm.response.json();\r",
+							"pm.environment.set('email_token', log_in.content.token);\r",
+							"\r",
+							"//x.content.user_id\r",
+							"var teacher_userId = pm.response.json();\r",
+							"pm.environment.set('user_id', teacher_userId.content.user_id);\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							" /*postman.setNextRequest(\"create_course\");\r",
+							" \r",
+							"//x.content.user_id\r",
+							"/*var announcer_id= pm.response.json();\r",
+							"pm.environment.set('announcer_id_set', announcer_id.content.user_id); */ \r",
+							"\r",
+							"//partner_code-set\r",
+							"var user_last_partner_Code_Id = pm.response.json();\r",
+							"pm.environment.set('last_partnerCode',user_last_partner_Code_Id.content.last_partner_code);\r",
+							"\r",
+							"//writing_testCase\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Request-Id",
+						"value": "signin-687324223342"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"16april2023@gmail.com\",\r\n    \"password\": \"16april2023\",\r\n    \"type\": \"basic\",\r\n    \"provider\":  \"password\"\r\n}"
+				},
+				"url": {
+					"raw": "https://acct.qa-api.mouchak.com/acct/v2/sessions",
+					"protocol": "https",
+					"host": [
+						"acct",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"acct",
+						"v2",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_course",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//course_type\r",
+							"coursetype = [\"Public\",\"Private\" ];\r",
+							"var ran_coursetype = Math.floor(Math.random()*coursetype.length);\r",
+							"var mycourse_type = coursetype[ran_coursetype];\r",
+							"pm.variables.set(\"random_coursetype\", mycourse_type);\r",
+							"console.log(mycourse_type);\r",
+							"\r",
+							"\r",
+							"//coursename \r",
+							" course_name=[\"SSC-2023\",\"HSC-2023\",\"University Admission-2023\",\"Job Preparation-2023\", \"Career-2023\",  \"Skills-2023\", \"Corporate Skills-2023\",\"Freelancing Skills-2023\", \"Art Skills-2023\", \"O Level-2023\", \"A Level-2023\",\"Others\"]\r",
+							"\r",
+							"    var ran_course_name= Math.floor(Math.random() * course_name.length);\r",
+							"    var mycourse_name = course_name[ran_course_name];\r",
+							"    pm.variables.set(\"random_course_name\", mycourse_name);\r",
+							"    console.log(mycourse_name)\r",
+							"\r",
+							"\r",
+							"//course_key \r",
+							"//Needs to be more than 5 chars.\r",
+							"var course_key_item = [\"CSE001\",\"CSE002\",\"CSE003\",\"CSE004\",\"CSE005\", \"CSE006\",\"CSE007\"];\r",
+							"function getRandomInt(min, max) { \r",
+							"min = Math.ceil(min); \r",
+							"max = Math.floor(max); \r",
+							"return Math.floor(Math.random() * (max - min)) + min; \r",
+							"\r",
+							"} \r",
+							"console.log(course_key_item)\r",
+							"pm.variables.set(\"course_key\", course_key_item[getRandomInt(0,7)]);\r",
+							"\r",
+							"\r",
+							"\r",
+							"//Course about &Outline\r",
+							"var dummyText=pm.variables.replaceIn('{{$randomLoremParagraph}}');\r",
+							"pm.variables.set(\"text\", dummyText); \r",
+							"\r",
+							"  \r",
+							"  \r",
+							"  \r",
+							"  //categories\r",
+							"     categories=[\"SSC\",\"HSC\",\"University Admission\",\"Job Preparation\", \"Career\",  \"Skills\", \"Corporate Skills\",\"Freelancing Skills\", \"Art Skills\", \"O Level\", \"A Level\",\"Others\"]\r",
+							"\r",
+							"\r",
+							"    var rand_categories = Math.floor(Math.random() * categories.length);\r",
+							"    var mycategories = categories[rand_categories];\r",
+							"    console.log(mycategories)\r",
+							"    pm.environment.set(\"random_categories\",mycategories);\r",
+							"\r",
+							"//subcategories \r",
+							"subcategories =[\"Bangla\",\"English\",\"Mathematics\",\"Religion\",\"ICT\",\"Physics\",\"Chemistry\",\"Biology\",\"Higher Math\",\"Accounting\"];\r",
+							"//pm.variables.set(\"subCategories\", subcategories[_.random(subcategories.length)]);\r",
+							"\r",
+							"var rand_subcategories = Math.floor(Math.random() * subcategories.length);\r",
+							"var categories1 = subcategories[rand_subcategories];\r",
+							"console.log(categories1);\r",
+							"pm.environment.set(\"random_subcategories\",categories1);\r",
+							"  \r",
+							" //Studentstakequiz\r",
+							"var studentstakequiz = [true, false];\r",
+							"pm.globals.set('studentQuiz', studentstakequiz[Math.floor(Math.random()*\r",
+							"studentstakequiz.length)]);\r",
+							"\r",
+							"console.log(studentstakequiz);\r",
+							"\r",
+							"//$randomInt\r",
+							"pm.variables.set('course_material', Math.floor(Math.random() * 10))\r",
+							"  \r",
+							"/*//$randomImageUrl\r",
+							"var image=pm.variables.replaceIn('{{$randomImageUrl}}');\r",
+							"pm.environment.set(\"course_image\", image); \r",
+							"*/ \r",
+							"\r",
+							"\r",
+							"  /*\r",
+							"//randomString\r",
+							"function randomString(minValue, maxValue, dataSet = 'abcdefgh') {\r",
+							"    if (!minValue) {\r",
+							"        minValue = 8;\r",
+							"        maxValue = 8;\r",
+							"    }\r",
+							"    if (!maxValue) {\r",
+							"        maxValue = minValue;\r",
+							"    }\r",
+							"    let length = _.random(minValue, maxValue),\r",
+							"        randomString = \"\";\r",
+							"    for (let i = 0; i < length; i++)\r",
+							"        randomString += dataSet.charAt(Math.floor(Math.random() * dataSet.length));\r",
+							"    return randomString;\r",
+							"}\r",
+							"pm.variables.set('randomString', randomString()); */\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//x.content.course_id\r",
+							"var set_course_id  = pm.response.json();\r",
+							"pm.environment.set('course_id_set', set_course_id.content.course_id);\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"Create Batch\");\r",
+							"\r",
+							" //writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{email_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjE2YXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxNmFwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTAyNDQiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTYtMTAtNTYtNDIiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTE2IDEwOjQ0OjM1LjAwMzg0NSswMDowMCIsImF1dGhvcml6ZWRfdmlld3MiOlsiU1RVREVOVF9WSUVXIiwiVEVBQ0hFUl9WSUVXIl0sInVzZXJfaWQiOiIzNTMxYWYzMS05NTdjLTRhZWUtOGM0NS1kYjViNDhiMzBlYzciLCJwcm92aWRlciI6InBhc3N3b3JkIiwiYWNjZXNzIjp7IkRFRkZDRkI2IjpbIm93bmVyIl19LCJvcmdhbml6YXRpb25zIjpbeyJwYXJ0bmVyX25hbWUiOiIxNmFwcmlsMjAyMyIsInBhcnRuZXJfY29kZSI6IkRFRkZDRkI2In1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IkRFRkZDRkI2IiwiY3VycmVuY3kiOiJiZHQiLCJleHBpcmVfdGltZSI6IjIwMjMtMDQtMTgtMDQtMDEtMzYifQ.46nkrZ-5YNlWv_Gbb845OeK5IdrM5-UKtHirBIQHuKA"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_post_courses"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_post_courses-1376584398"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"course_type\":\"{{random_coursetype}}\"\r\n,\"syllabus_topics\":[\"\"],\r\n\"course_materials\":{\"video_lectures\":\"{{course_material}}\",\r\n\"live_classes\":\"{{course_material}}\",\"quizzes\":\"{{course_material}}\",\"lecture_notes\":\"{{course_material}}\",\"projects\":\"{{course_material}}\",\"assignments\":\"{{course_material}}\",\"exams\":\"{{course_material}}\"},\r\n\r\n\"course_title\":\"{{random_course_name}}\",\"course_key\":\"{{course_key}}\",\r\n\"image\":{\"file\":{}},\r\n\"course_description\":\"<p>{{text}}</p>\",\r\n\r\n\"syllabus\":\"<p>{{text}} </p>\",\r\n\r\n\"quiz_enabled\":false,\r\n\"category\":\"{{mycategories}}\",\r\n\"subcategories\":[\"{{random_subcategories}}\"],\r\n\r\n\"partner_code\":\"DEFFCFB6\"\r\n}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_Batch",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//batch_title\r",
+							" batch_title=[\"SSC-2023\",\"HSC-2023\",\"University Admission-2023\",\"Job Preparation-2023\", \"Career-2023\",  \"Skills-2023\", \"Corporate Skills-2023\",\"Freelancing Skills-2023\", \"Art Skills-2023\", \"O Level-2023\", \"A Level-2023\",\"Others\"]\r",
+							"\r",
+							"    var ran_batch_title= Math.floor(Math.random() * batch_title.length);\r",
+							"    var mybatch_title = batch_title[ran_batch_title];\r",
+							"    pm.variables.set(\"random_batch_title\", mybatch_title);\r",
+							"    console.log(mybatch_title)\r",
+							"\r",
+							"\r",
+							"//summary\r",
+							"var summary_dummy_text=pm.variables.replaceIn('{{$randomLoremSentence}}');\r",
+							"pm.variables.set(\"summary_text\", summary_dummy_text); \r",
+							"console.log(summary_dummy_text)\r",
+							"//description\r",
+							"var description_dummy_text=pm.variables.replaceIn('{{$randomLoremParagraphs}}');\r",
+							"pm.variables.set(\"description_text\", description_dummy_text); \r",
+							"console.log(description_dummy_text)\r",
+							"\r",
+							"\r",
+							"//batch_type\r",
+							"batch_type = [\"Online\",\"In Person\"];\r",
+							"var ran_batchtype = Math.floor(Math.random()*batch_type.length);\r",
+							"var mybatch_type = batch_type[ran_batchtype];\r",
+							"pm.variables.set(\"random_batchtype\", mybatch_type);\r",
+							"console.log(mybatch_type);\r",
+							"\r",
+							"//$randomInt\r",
+							"pm.variables.set('course_price', Math.floor(Math.random() * 10))\r",
+							"\r",
+							"//\"One Time\", \"Monthly\", \"Yearly\", \"Installment\"\r",
+							"\r",
+							"//PaymentType\r",
+							"paymentype=[\"One Time\", \"Monthly\", \"Yearly\", \"Installment\"]\r",
+							"\r",
+							"    var ran_paymentype= Math.floor(Math.random() * batch_title.length);\r",
+							"    var mypaymentype = batch_title[ran_paymentype];\r",
+							"    pm.variables.set(\"random_paymentype\", paymentype);\r",
+							"    console.log(mypaymentype)\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//x.content.batch_id\r",
+							"\r",
+							"var set_batch_id  = pm.response.json();\r",
+							"pm.environment.set('batch_id_set', set_batch_id.content.batch_id);\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"teachers Add/Remove_multiple_students\");\r",
+							"\r",
+							"\r",
+							" //writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{email_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_post_batches"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_post_batches-3105052662"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"course_id\":\"41fe53d2-cdaa-4259-8f7e-1a373c1474b0\",\r\n\"batch_title\":\"{{random_batch_title}}\",\r\n\"summary\":\"{{summary_text}}\",\r\n\"description\":\"{{description_text}}\",\r\n\"teacher_info\":\"Kazi Akib Abdullah-self#1e40191e-dff8-4606-8a2b-fd7af59b0e1a\",\r\n\"batch_type\":\"{{random_batchtype}}\",\r\n\"price\":\"{{course_price}}\",\r\n\"payment_type\":\"One Time\",\r\n\"begin_date\":\"2023-04-13\",\r\n\"end_date\":\"2023-12-31\",\r\n\"partner_code\":\"DEFFCFB6\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "teachers_add_students",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//NextRequestCall\r",
+							"// postman.setNextRequest(\"create_announcement\");\r",
+							"\r",
+							" //writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{email_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjE2YXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxNmFwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTAyNDQiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTctMDQtMTItMzkiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTE2IDEwOjQ0OjM1LjAwMzg0NSswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciLCJURUFDSEVSX1ZJRVciXSwidXNlcl9pZCI6IjM1MzFhZjMxLTk1N2MtNGFlZS04YzQ1LWRiNWI0OGIzMGVjNyIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiREVGRkNGQjYiOlsib3duZXIiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IjE2YXByaWwyMDIzIiwicGFydG5lcl9jb2RlIjoiREVGRkNGQjYifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiREVGRkNGQjYiLCJleHBpcmVfdGltZSI6IjIwMjMtMDQtMTgtMDQtMjEtMDMifQ.s6wx2_gRYUeMiGBIujbY3eC-UFFZBAwaLTg12Qma8cY"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teachers_add_remove_multiple_students"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teachers_add_remove_multiple_students-118179737"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partner_code\":\"{{last_partnerCode}}\",\r\n\"course_id\":\"{{course_id_set}}\",\r\n\"batch_id\":\"{{batch_id_set}}\",\r\n\"student_ids\":[\"6e8acea6-d1ef-499e-a304-4e003b3caf41\"]}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "teacher_send_sms_email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjE2YXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxNmFwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTAyNDQiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTctMDQtMTItMzkiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTE2IDEwOjQ0OjM1LjAwMzg0NSswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciLCJURUFDSEVSX1ZJRVciXSwidXNlcl9pZCI6IjM1MzFhZjMxLTk1N2MtNGFlZS04YzQ1LWRiNWI0OGIzMGVjNyIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiREVGRkNGQjYiOlsib3duZXIiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IjE2YXByaWwyMDIzIiwicGFydG5lcl9jb2RlIjoiREVGRkNGQjYifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiREVGRkNGQjYiLCJleHBpcmVfdGltZSI6IjIwMjMtMDQtMTgtMDQtMjEtMDMifQ.s6wx2_gRYUeMiGBIujbY3eC-UFFZBAwaLTg12Qma8cY"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teacher_send_sms_email"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teacher_send_sms_email-1704771140"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partner_code\":\"{{last_partnerCode}}\",\r\n\"message_body\":\"Hello Everyone How are you \",\r\n\"subject\":\"2023-Hello Everyone \",\r\n\"message_type\":\"email\",\r\n\"is_send_to_guardian\":false,\r\n\"is_send_to_student\":true,\r\n\"receivers\":[{\"course_id\":\"{{course_id_set}}\",\r\n\"batch_id\":\"{{batch_id_set}}\"}]}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "teacher_get_sms_email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjE2YXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxNmFwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTAyNDQiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTctMDQtMTItMzkiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTE2IDEwOjQ0OjM1LjAwMzg0NSswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciLCJURUFDSEVSX1ZJRVciXSwidXNlcl9pZCI6IjM1MzFhZjMxLTk1N2MtNGFlZS04YzQ1LWRiNWI0OGIzMGVjNyIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiREVGRkNGQjYiOlsib3duZXIiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IjE2YXByaWwyMDIzIiwicGFydG5lcl9jb2RlIjoiREVGRkNGQjYifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiREVGRkNGQjYiLCJleHBpcmVfdGltZSI6IjIwMjMtMDQtMTgtMDQtMjEtMDMifQ.s6wx2_gRYUeMiGBIujbY3eC-UFFZBAwaLTg12Qma8cY"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teacher_get_sms_email"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teacher_get_sms_email-481208581"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partner_code\":\"{{last_partnerCode}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "teacher_get_sms_email_details",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjE2YXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxNmFwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTAyNDQiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTctMDQtMTItMzkiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTE2IDEwOjQ0OjM1LjAwMzg0NSswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciLCJURUFDSEVSX1ZJRVciXSwidXNlcl9pZCI6IjM1MzFhZjMxLTk1N2MtNGFlZS04YzQ1LWRiNWI0OGIzMGVjNyIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiREVGRkNGQjYiOlsib3duZXIiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IjE2YXByaWwyMDIzIiwicGFydG5lcl9jb2RlIjoiREVGRkNGQjYifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiREVGRkNGQjYiLCJleHBpcmVfdGltZSI6IjIwMjMtMDQtMTgtMDYtMDEtNDEifQ.8iJsIxpatYgYaDWcJRfpr9vY443qWvQJPvi_ORXYVzo"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "teacher_get_sms_email_details"
+					},
+					{
+						"key": "Request-Id",
+						"value": "teacher_get_sms_email_details-333149751"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-console.classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-console.classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partner_code\":\"{{last_partnerCode}}\",\r\n\"message_id\":\"071a6586-8481-4793-b928-23cc3bf7202c\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/teachers",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"teachers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

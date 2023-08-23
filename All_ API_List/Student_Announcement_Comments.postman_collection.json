@@ -1,0 +1,862 @@
+{
+	"info": {
+		"_postman_id": "f7b60c66-3b8b-4350-a0ae-b4c23d320204",
+		"name": "Student_Announcement_Comments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26258025",
+		"_collection_link": "https://interstellar-spaceship-146818.postman.co/workspace/My-Workspace~4545c222-419c-4583-8d1a-3926873e0b4e/collection/26258025-f7b60c66-3b8b-4350-a0ae-b4c23d320204?action=share&creator=26258025&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "students_login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"get_all_announcement\");\r",
+							"\r",
+							"\r",
+							" //writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Request-Id",
+						"value": "signin-687324223342"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"13april2023@gmail.com\",\r\n    \"password\": \"13april2023\",\r\n    \"type\": \"basic\",\r\n    \"provider\":  \"password\"\r\n}"
+				},
+				"url": {
+					"raw": "https://acct.qa-api.mouchak.com/acct/v2/sessions",
+					"protocol": "https",
+					"host": [
+						"acct",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"acct",
+						"v2",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "students_get_announcement ",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"students_post_comments\");\r",
+							"\r",
+							"\r",
+							" //writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTUtMDUtNDEtNDYiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImF1dGhvcml6ZWRfdmlld3MiOlsiU1RVREVOVF9WSUVXIl0sInVzZXJfaWQiOiJhMDhkNWU1NC04YjRmLTQwZjAtYjA5YS1mODVhZDlmN2E0YTUiLCJwcm92aWRlciI6InBhc3N3b3JkIiwiYWNjZXNzIjp7IjBDMzQ3QzJGIjpbInVzZXIiLCJzdHVkZW50Il19LCJvcmdhbml6YXRpb25zIjpbeyJwYXJ0bmVyX25hbWUiOiJLYXppIEFraWIgQWJkdWxsYWgiLCJwYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiJ9XSwibGFzdF9wYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiIsImN1cnJlbmN5IjoiYmR0IiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE2LTEwLTAwLTMwIn0.1HRBPJAaXhwek4gM5E6AWt3j5xzwGLbR0AG8u2Kang0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTUtMDUtNDEtNDYiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciXSwidXNlcl9pZCI6ImEwOGQ1ZTU0LThiNGYtNDBmMC1iMDlhLWY4NWFkOWY3YTRhNSIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiMEMzNDdDMkYiOlsidXNlciIsInN0dWRlbnQiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IkthemkgQWtpYiBBYmR1bGxhaCIsInBhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIn1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE2LTA1LTQxLTQ4In0.CfL2v_EMFVHLxIe5OimV81zIi6FR89MZFH_WH6hcxRA"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "students_get_announcement"
+					},
+					{
+						"key": "Request-Id",
+						"value": "students_get_announcement-1246174572"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"announcement_id\":\"{{announcement_id_set}}\",\r\n\"course_id\":\"{{course_id_set}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/students",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "students_post_comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//setcommentid\r",
+							"var commentid = pm.response.json();\r",
+							"pm.environment.set('comment_id_set', commentid.content.comment_id);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"students_get_comments\");\r",
+							"\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTYtMDUtMjUtMjMiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImF1dGhvcml6ZWRfdmlld3MiOlsiU1RVREVOVF9WSUVXIl0sInVzZXJfaWQiOiJhMDhkNWU1NC04YjRmLTQwZjAtYjA5YS1mODVhZDlmN2E0YTUiLCJwcm92aWRlciI6InBhc3N3b3JkIiwiYWNjZXNzIjp7IjBDMzQ3QzJGIjpbInVzZXIiLCJzdHVkZW50Il19LCJvcmdhbml6YXRpb25zIjpbeyJwYXJ0bmVyX25hbWUiOiJLYXppIEFraWIgQWJkdWxsYWgiLCJwYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiJ9XSwibGFzdF9wYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiIsImN1cnJlbmN5IjoiYmR0IiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE3LTA1LTUzLTI3In0.WlJhUVLwtCUtFoBfPqUVOJfto8olcStQ5P6ZkcoYq2k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTUtMDUtNDEtNDYiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciXSwidXNlcl9pZCI6ImEwOGQ1ZTU0LThiNGYtNDBmMC1iMDlhLWY4NWFkOWY3YTRhNSIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiMEMzNDdDMkYiOlsidXNlciIsInN0dWRlbnQiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IkthemkgQWtpYiBBYmR1bGxhaCIsInBhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIn1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE2LTA1LTQxLTQ4In0.CfL2v_EMFVHLxIe5OimV81zIi6FR89MZFH_WH6hcxRA"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "students_post_comments"
+					},
+					{
+						"key": "Request-Id",
+						"value": "students_post_comments-3870936481"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"announcement_id\":\"{{announcement_id_set}}\",\r\n\"course_id\":\"{{course_id_set}}\",\r\n\"batch_id\":\"{{batch_id_set}}\",\r\n\"text\":\"16-04-2023 Hello sir\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/students",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "students_get_comments ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"students_edit_comments\");\r",
+							"\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTUtMDUtNDEtNDYiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciXSwidXNlcl9pZCI6ImEwOGQ1ZTU0LThiNGYtNDBmMC1iMDlhLWY4NWFkOWY3YTRhNSIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiMEMzNDdDMkYiOlsidXNlciIsInN0dWRlbnQiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IkthemkgQWtpYiBBYmR1bGxhaCIsInBhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIn1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE2LTA2LTM1LTM3In0.KNfKBL_0SboJV2aDNhoFh0KVYjAmNSobhdDU_6KqPTw"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "students_get_comments"
+					},
+					{
+						"key": "Request-Id",
+						"value": "students_get_comments-1606607770"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"announcement_id\":\"{{announcement_id_set}}\",\r\n\"course_id\":\"{{course_id_set}}\",\r\n\"batch_id\":\"{{batch_id_set}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/students",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "students_edit_comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"students_delete_comments\");\r",
+							"\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTYtMDUtMDUtMjUiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImF1dGhvcml6ZWRfdmlld3MiOlsiU1RVREVOVF9WSUVXIl0sInVzZXJfaWQiOiJhMDhkNWU1NC04YjRmLTQwZjAtYjA5YS1mODVhZDlmN2E0YTUiLCJwcm92aWRlciI6InBhc3N3b3JkIiwiYWNjZXNzIjp7IjBDMzQ3QzJGIjpbInVzZXIiLCJzdHVkZW50Il19LCJvcmdhbml6YXRpb25zIjpbeyJwYXJ0bmVyX25hbWUiOiJLYXppIEFraWIgQWJkdWxsYWgiLCJwYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiJ9XSwibGFzdF9wYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiIsImN1cnJlbmN5IjoiYmR0IiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE3LTA1LTE1LTA2In0.apSk31fUhWUzUpkSjPdz9DDBCASg_278VdaFV-24tcw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiJLYXppIEFraWIgQWJkdWxsYWgiLCJwaG9uZSI6IjAxNjc3NzM0MTQyIiwiZW1haWxfdmVyaWZpZWQiOjAsInBob25lX3ZlcmlmaWVkIjowLCJsYXN0X2xvZ2luX3RpbWUiOiIyMDIzLTA0LTE1LTA1LTIxLTE1IiwibGFuZ19wcmVmZXJlbmNlIjoiRU4iLCJwYXNzd29yZF91cGRhdGVkX2F0IjoiMjAyMy0wNC0xMiAwNTowMzozNy4zNTkyNTYrMDA6MDAiLCJhdXRob3JpemVkX3ZpZXdzIjpbIlNUVURFTlRfVklFVyIsIlRFQUNIRVJfVklFVyJdLCJ1c2VyX2lkIjoiMWU0MDE5MWUtZGZmOC00NjA2LThhMmItZmQ3YWY1OWIwZTFhIiwicHJvdmlkZXIiOiJwYXNzd29yZCIsImFjY2VzcyI6eyIwQzM0N0MyRiI6WyJvd25lciJdfSwib3JnYW5pemF0aW9ucyI6W3sicGFydG5lcl9uYW1lIjoiS2F6aSBBa2liIEFiZHVsbGFoIiwicGFydG5lcl9jb2RlIjoiMEMzNDdDMkYifV0sImxhc3RfcGFydG5lcl9jb2RlIjoiMEMzNDdDMkYiLCJjdXJyZW5jeSI6ImJkdCIsImV4cGlyZV90aW1lIjoiMjAyMy0wNC0xNi0wNS0yNi0xNiJ9.PONKCe59b5O7Pm9LfczBEnwtC3uo2_vfq2nBhXH7EFs"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "students_post_comments"
+					},
+					{
+						"key": "Request-Id",
+						"value": "students_post_comments-3243249699"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"announcement_id\":\"{{announcement_id_set}}\",\r\n\"course_id\":\"{{course_id_set}}\",\r\n\"batch_id\":\"{{batch_id_set}}\",\r\n\"text\":\"20-04-2023...\",\r\n\"comment_id\":\"{{comment_id_set}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/students",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "students_delete_comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(null);\r",
+							"\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTYtMDUtMDUtMjUiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImF1dGhvcml6ZWRfdmlld3MiOlsiU1RVREVOVF9WSUVXIl0sInVzZXJfaWQiOiJhMDhkNWU1NC04YjRmLTQwZjAtYjA5YS1mODVhZDlmN2E0YTUiLCJwcm92aWRlciI6InBhc3N3b3JkIiwiYWNjZXNzIjp7IjBDMzQ3QzJGIjpbInVzZXIiLCJzdHVkZW50Il19LCJvcmdhbml6YXRpb25zIjpbeyJwYXJ0bmVyX25hbWUiOiJLYXppIEFraWIgQWJkdWxsYWgiLCJwYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiJ9XSwibGFzdF9wYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiIsImN1cnJlbmN5IjoiYmR0IiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE3LTA1LTE1LTA2In0.apSk31fUhWUzUpkSjPdz9DDBCASg_278VdaFV-24tcw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTUtMDUtNDEtNDYiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciXSwidXNlcl9pZCI6ImEwOGQ1ZTU0LThiNGYtNDBmMC1iMDlhLWY4NWFkOWY3YTRhNSIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiMEMzNDdDMkYiOlsidXNlciIsInN0dWRlbnQiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IkthemkgQWtpYiBBYmR1bGxhaCIsInBhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIn1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE2LTA2LTM1LTM3In0.KNfKBL_0SboJV2aDNhoFh0KVYjAmNSobhdDU_6KqPTw"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "students_delete_comments"
+					},
+					{
+						"key": "Request-Id",
+						"value": "students_delete_comments-1609464036"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"comment_id\":\"{{comment_id_set}}\",\r\n\"announcement_id\":\"{{announcement_id_set}}\"}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/students",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_all_announcement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"students_get_announcement\");\r",
+							"\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//wrinting test-case \r",
+							"//status\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTYtMDUtMjUtMjMiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImF1dGhvcml6ZWRfdmlld3MiOlsiU1RVREVOVF9WSUVXIl0sInVzZXJfaWQiOiJhMDhkNWU1NC04YjRmLTQwZjAtYjA5YS1mODVhZDlmN2E0YTUiLCJwcm92aWRlciI6InBhc3N3b3JkIiwiYWNjZXNzIjp7IjBDMzQ3QzJGIjpbInVzZXIiLCJzdHVkZW50Il19LCJvcmdhbml6YXRpb25zIjpbeyJwYXJ0bmVyX25hbWUiOiJLYXppIEFraWIgQWJkdWxsYWgiLCJwYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiJ9XSwibGFzdF9wYXJ0bmVyX2NvZGUiOiIwQzM0N0MyRiIsImN1cnJlbmN5IjoiYmR0IiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE3LTA1LTUzLTI3In0.WlJhUVLwtCUtFoBfPqUVOJfto8olcStQ5P6ZkcoYq2k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-US,en;q=0.5"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEzYXByaWwyMDIzQGdtYWlsLmNvbSIsIm5hbWUiOiIxM2FwcmlsMjAyMyIsInBob25lIjoiMDE3OTk4OTI1NTU1NTUiLCJlbWFpbF92ZXJpZmllZCI6MCwicGhvbmVfdmVyaWZpZWQiOjAsImxhc3RfbG9naW5fdGltZSI6IjIwMjMtMDQtMTYtMDUtMjUtMjMiLCJsYW5nX3ByZWZlcmVuY2UiOiJCTiIsInBhc3N3b3JkX3VwZGF0ZWRfYXQiOiIyMDIzLTA0LTEzIDA4OjQ1OjA3LjU1MjgzMCswMDowMCIsImJhbGFuY2UiOiIwIiwiYXV0aG9yaXplZF92aWV3cyI6WyJTVFVERU5UX1ZJRVciXSwidXNlcl9pZCI6ImEwOGQ1ZTU0LThiNGYtNDBmMC1iMDlhLWY4NWFkOWY3YTRhNSIsInByb3ZpZGVyIjoicGFzc3dvcmQiLCJhY2Nlc3MiOnsiMEMzNDdDMkYiOlsidXNlciIsInN0dWRlbnQiXX0sIm9yZ2FuaXphdGlvbnMiOlt7InBhcnRuZXJfbmFtZSI6IkthemkgQWtpYiBBYmR1bGxhaCIsInBhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIn1dLCJsYXN0X3BhcnRuZXJfY29kZSI6IjBDMzQ3QzJGIiwiZXhwaXJlX3RpbWUiOiIyMDIzLTA0LTE3LTA1LTI1LTI2In0.9-g0p1IBxNWfBC1ButhOf0Lmey4h_vM70sZMwjKhgZ0"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Channel-Name",
+						"value": "students_get_announcements_optimized"
+					},
+					{
+						"key": "Request-Id",
+						"value": "students_get_announcements_optimized-1499767929"
+					},
+					{
+						"key": "Origin",
+						"value": "https://qa-classroom.mouchak.com"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Referer",
+						"value": "https://qa-classroom.mouchak.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-site"
+					},
+					{
+						"key": "TE",
+						"value": "trailers"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "https://edu.qa-api.mouchak.com/edu/v2/students",
+					"protocol": "https",
+					"host": [
+						"edu",
+						"qa-api",
+						"mouchak",
+						"com"
+					],
+					"path": [
+						"edu",
+						"v2",
+						"students"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
