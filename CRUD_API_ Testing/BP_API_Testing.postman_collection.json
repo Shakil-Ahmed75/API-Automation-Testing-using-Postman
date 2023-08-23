@@ -1,0 +1,328 @@
+{
+	"info": {
+		"_postman_id": "a5e13839-1573-45e0-8e15-c8de10a6aba5",
+		"name": "BP_API_Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20690349"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//x.data.token\r",
+							"//setToken\r",
+							"var log_in = pm.response.json();\r",
+							"pm.environment.set('BP_token', log_in.data.token);\r",
+							"\r",
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"Show Product\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BP_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"test.user@gmail.com\",\r\n    \"password\": \"12345678\"\r\n \r\n}\r\n\r\n//email (test.user@gmail.com), password (12345678)",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"Show Single Product\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BP_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/product/view_product",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product",
+						"view_product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Single Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"Add Cart\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BP_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/product/view_single_product/15",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product",
+						"view_single_product",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(\"cart view_cart\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BP_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cart\": [\r\n        {\r\n            \"id\": 1,\r\n            \"user_id\": \"1\",\r\n            \"product_id\": \"312\",\r\n           \r\n            \"product\": {\r\n                \r\n              \r\n            }\r\n        } ],  \r\n        \"status\": 200\r\n        \r\n         }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/cart/add_cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cart",
+						"add_cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cart view_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//writing_testCase\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status code is Passed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Api response time \r",
+							"pm.test.skip(\"Response time is less than 200 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"//NextRequestCall\r",
+							" postman.setNextRequest(null);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{BP_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/cart/view_cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cart",
+						"view_cart"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
